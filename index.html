@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhananjaya Fernando - Flutter Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --text-primary: #e8e8e8;
+            --text-secondary: #a0a0a0;
+            --accent: #00d4aa;
+            --accent-dim: #008c73;
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 212, 170, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 212, 170, 0.05) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-5%, -5%) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.1s forwards;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, #00ffc8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.2s forwards;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease 0.3s forwards;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Styling */
+        section {
+            padding: 6rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            letter-spacing: -0.02em;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-item {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            border-color: var(--accent-dim);
+            transform: translateY(-4px);
+        }
+
+        .stat-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            border-color: var(--accent-dim);
+            transform: translateY(-4px);
+        }
+
+        .skill-category h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid var(--accent-dim);
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(0, 212, 170, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 3rem;
+            padding: 3rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-dim);
+            transform: translateY(-8px);
+        }
+
+        .project-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 4rem;
+            color: var(--accent-dim);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .project-info h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-info p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-badge {
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid var(--accent-dim);
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            color: var(--accent);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-link:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            transform: translateX(4px);
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Work Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(0, 212, 170, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Work Sans', sans-serif;
+            justify-self: start;
+        }
+
+        .submit-btn:hover {
+            background: #00ffc8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 170, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 4rem 0;
+            }
+
+            section {
+                padding: 4rem 0;
+            }
+
+            .about-content,
+            .project-card {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card {
+                padding: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">DF</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-label">Flutter Developer</span>
+                    <h1>Building beautiful <span class="gradient-text">cross-platform</span> experiences</h1>
+                    <p>I craft elegant mobile and web applications using Flutter, with expertise in Dart, Go, and Kotlin. Passionate about creating seamless user experiences across all platforms.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/DhananjayaFdo" target="_blank" rel="noopener">
+                            <span>→</span> GitHub
+                        </a>
+                        <a href="https://www.linkedin.com/in/dhananjaya08fdo/" target="_blank" rel="noopener">
+                            <span>→</span> LinkedIn
+                        </a>
+                        <a href="mailto:dhananjaya08fdo@gmail.com">
+                            <span>→</span> Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">About Me</span>
+                    <h2 class="section-title">Crafting digital experiences</h2>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>I'm a passionate Flutter developer dedicated to building high-quality cross-platform applications. My journey in software development has led me to specialize in creating beautiful, performant mobile and web experiences.</p>
+                        <p>With a strong foundation in Flutter and Dart, complemented by backend expertise in Go and mobile development knowledge in Kotlin, I bring a full-stack perspective to every project. I believe in writing clean, maintainable code and creating intuitive user interfaces.</p>
+                        <p>When I'm not coding, I'm exploring new technologies, contributing to open-source projects, and staying up-to-date with the latest developments in mobile and web development.</p>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Client Satisfaction</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">24/7</div>
+                            <div class="stat-label">Learning Mode</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Expertise</span>
+                    <h2 class="section-title">Skills & Technologies</h2>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Mobile Development</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Flutter</span>
+                            <span class="skill-tag">Dart</span>
+                            <span class="skill-tag">Kotlin</span>
+                            <span class="skill-tag">Android</span>
+                            <span class="skill-tag">iOS</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Frontend & Web</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Responsive Design</span>
+                            <span class="skill-tag">UI/UX</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Backend & Tools</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Go</span>
+                            <span class="skill-tag">REST APIs</span>
+                            <span class="skill-tag">Firebase</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Docker</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>State Management</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Provider</span>
+                            <span class="skill-tag">Riverpod</span>
+                            <span class="skill-tag">Bloc</span>
+                            <span class="skill-tag">GetX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Portfolio</span>
+                    <h2 class="section-title">Featured Projects</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-number">01</div>
+                        <div class="project-info">
+                            <h3>E-Commerce Mobile App</h3>
+                            <p>A full-featured e-commerce application built with Flutter, featuring product browsing, cart management, secure payments, and real-time order tracking. Integrated with Firebase for backend services and state management using Riverpod.</p>
+                            <div class="project-tech">
+                                <span class="tech-badge">Flutter</span>
+                                <span class="tech-badge">Dart</span>
+                                <span class="tech-badge">Firebase</span>
+                                <span class="tech-badge">Riverpod</span>
+                                <span class="tech-badge">Stripe</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/DhananjayaFdo" target="_blank" rel="noopener" class="project-link">
+                                    View Code →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-number">02</div>
+                        <div class="project-info">
+                            <h3>Fitness Tracker App</h3>
+                            <p>A comprehensive fitness tracking application with workout planning, progress monitoring, and social features. Built with Flutter for cross-platform support and Go microservices backend for scalable data processing.</p>
+                            <div class="project-tech">
+                                <span class="tech-badge">Flutter</span>
+                                <span class="tech-badge">Go</span>
+                                <span class="tech-badge">PostgreSQL</span>
+                                <span class="tech-badge">Bloc</span>
+                                <span class="tech-badge">Charts</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/DhananjayaFdo" target="_blank" rel="noopener" class="project-link">
+                                    View Code →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-number">03</div>
+                        <div class="project-info">
+                            <h3>Real-Time Chat Application</h3>
+                            <p>A modern messaging app with end-to-end encryption, group chats, media sharing, and push notifications. Leveraging Flutter for the frontend and Kotlin for native Android optimizations, with real-time sync via WebSockets.</p>
+                            <div class="project-tech">
+                                <span class="tech-badge">Flutter</span>
+                                <span class="tech-badge">Kotlin</span>
+                                <span class="tech-badge">WebSockets</span>
+                                <span class="tech-badge">MongoDB</span>
+                                <span class="tech-badge">FCM</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://github.com/DhananjayaFdo" target="_blank" rel="noopener" class="project-link">
+                                    View Code →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-label">Get In Touch</span>
+                    <h2 class="section-title">Let's work together</h2>
+                </div>
+                <div class="contact-wrapper">
+                    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Dhananjaya Fernando. Built with passion and code.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission (you'll need to set up Formspree or another service)
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', function(e) {
+            // For now, just show an alert. Replace with actual form handling
+            if (this.action === 'https://formspree.io/f/YOUR_FORM_ID') {
+                e.preventDefault();
+                alert('Please update the form action with your Formspree ID or email service!');
+            }
+        });
+    </script>
+</body>
+</html>
